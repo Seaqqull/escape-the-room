@@ -1,10 +1,10 @@
-﻿#if ENABLE_INPUT_SYSTEM 
+﻿#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
-
 using UnityEngine;
 
-namespace UnityTemplateProjects
+
+namespace EscapeTheRoom.Tmp
 {
     public class SimpleCameraController : MonoBehaviour
     {
@@ -29,11 +29,9 @@ namespace UnityTemplateProjects
 
             public void Translate(Vector3 translation)
             {
-                Vector3 rotatedTranslation = Quaternion.Euler(pitch, yaw, roll) * translation;
-
-                x += rotatedTranslation.x;
-                y += rotatedTranslation.y;
-                z += rotatedTranslation.z;
+                x += translation.x;
+                y += translation.y;
+                z += translation.z;
             }
 
             public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct)
@@ -41,7 +39,7 @@ namespace UnityTemplateProjects
                 yaw = Mathf.Lerp(yaw, target.yaw, rotationLerpPct);
                 pitch = Mathf.Lerp(pitch, target.pitch, rotationLerpPct);
                 roll = Mathf.Lerp(roll, target.roll, rotationLerpPct);
-                
+
                 x = Mathf.Lerp(x, target.x, positionLerpPct);
                 y = Mathf.Lerp(y, target.y, positionLerpPct);
                 z = Mathf.Lerp(z, target.z, positionLerpPct);
@@ -53,7 +51,7 @@ namespace UnityTemplateProjects
                 t.position = new Vector3(x, y, z);
             }
         }
-        
+
         CameraState m_TargetCameraState = new CameraState();
         CameraState m_InterpolatingCameraState = new CameraState();
 
@@ -133,7 +131,7 @@ namespace UnityTemplateProjects
 #else
             if (Input.GetKey(KeyCode.W))
             {
-                direction += Vector3.forward;
+                direction += (Quaternion.Euler(0, transform.rotation.y, 0) * Vector3.forward);
             }
             if (Input.GetKey(KeyCode.S))
             {
@@ -149,25 +147,25 @@ namespace UnityTemplateProjects
             }
             if (Input.GetKey(KeyCode.Q))
             {
-                direction += Vector3.down;
+                direction += (transform.rotation * Vector3.forward);
             }
             if (Input.GetKey(KeyCode.E))
             {
-                direction += Vector3.up;
+                 direction += (transform.rotation * Vector3.back);
             }
 #endif
             return direction;
         }
-        
+
         void Update()
         {
-            // Exit Sample  
+            // Exit Sample
 
             if (IsEscapePressed())
             {
                 Application.Quit();
 				#if UNITY_EDITOR
-				UnityEditor.EditorApplication.isPlaying = false; 
+				UnityEditor.EditorApplication.isPlaying = false;
 				#endif
             }
 
@@ -190,13 +188,13 @@ namespace UnityTemplateProjects
                 var mouseMovement = GetInputLookRotation() * Time.deltaTime * 5;
                 if (invertY)
                     mouseMovement.y = -mouseMovement.y;
-                
+
                 var mouseSensitivityFactor = mouseSensitivityCurve.Evaluate(mouseMovement.magnitude);
 
                 m_TargetCameraState.yaw += mouseMovement.x * mouseSensitivityFactor;
                 m_TargetCameraState.pitch += mouseMovement.y * mouseSensitivityFactor;
             }
-            
+
             // Translation
             var translation = GetInputTranslationDirection() * Time.deltaTime;
 
@@ -205,7 +203,7 @@ namespace UnityTemplateProjects
             {
                 translation *= 10.0f;
             }
-            
+
             // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel)
             boost += GetBoostFactor();
             translation *= Mathf.Pow(2.0f, boost);
@@ -242,7 +240,7 @@ namespace UnityTemplateProjects
         bool IsBoostPressed()
         {
 #if ENABLE_INPUT_SYSTEM
-            bool boost = Keyboard.current != null ? Keyboard.current.leftShiftKey.isPressed : false; 
+            bool boost = Keyboard.current != null ? Keyboard.current.leftShiftKey.isPressed : false;
             boost |= Gamepad.current != null ? Gamepad.current.xButton.isPressed : false;
             return boost;
 #else
@@ -254,7 +252,7 @@ namespace UnityTemplateProjects
         bool IsEscapePressed()
         {
 #if ENABLE_INPUT_SYSTEM
-            return Keyboard.current != null ? Keyboard.current.escapeKey.isPressed : false; 
+            return Keyboard.current != null ? Keyboard.current.escapeKey.isPressed : false;
 #else
             return Input.GetKey(KeyCode.Escape);
 #endif
