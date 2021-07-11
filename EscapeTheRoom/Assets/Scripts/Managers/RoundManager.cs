@@ -1,3 +1,4 @@
+using EscapeTheRoom.Rooms;
 using UnityEngine;
 
 
@@ -7,8 +8,31 @@ namespace EscapeTheRoom.Managers
     {
 
         [SerializeField] private float _roundTime;
+        [SerializeField] private RTSCamera _camera;
+        [SerializeField] private RoomController _room;
 
+        private bool _inputAllowed;
+        private bool _firstLaunch = true;
         private bool _started;
+
+        public bool InputAllowed
+        {
+            get {return _inputAllowed;}
+            set
+            {
+                if(_camera != null)
+                    _camera.Active = value;
+                _inputAllowed = true;
+            }
+        }
+        public float RoundTime
+        {
+            get {return _roundTime;}
+        }
+        public bool Started
+        {
+            get {return _started;}
+        }
 
 
         private void Update()
@@ -22,16 +46,39 @@ namespace EscapeTheRoom.Managers
         }
 
 
+        public void Stop()
+        {
+            InputAllowed = false;
+            _started = false;
+
+            UIManager.Instance.ShowEndMenu();
+        }
+
+        public void Clear()
+        {
+            _room.Disassemble();
+        }
+
         public void Begin()
         {
-            _started = true;
+            if(_firstLaunch)
+            {
+                UIManager.Instance.HideStartMenu();
+            }
+            else
+            {
+                Clear();
+                Player.Instance.ClearInventory();
+                UIManager.Instance.HideEndMenu();
+            }
+            _room.Assemble();
 
+            InputAllowed = true;
+
+            _firstLaunch = false;
+            _started = true;
             _roundTime = 0;
         }
 
-        public void Stop()
-        {
-            _started = false;
-        }
     }
 }

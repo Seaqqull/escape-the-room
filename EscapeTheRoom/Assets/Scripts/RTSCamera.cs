@@ -11,9 +11,15 @@ namespace EscapeTheRoom
         [Header("Rotation")]
         [SerializeField] private float _rotationSpeed;
 
+        public bool Active {get; set;}
 
-        public void LateUpdate()
+
+        private void LateUpdate()
         {
+            if(!Active)
+                return;
+
+
             var translation = GetInputTranslation();
             var rotation = GetInputRotation();
 
@@ -31,6 +37,19 @@ namespace EscapeTheRoom
                 (translation * _movementSpeed * Time.deltaTime);
         }
 
+
+        private float GetInputRotation()
+        {
+            float rotation = 0;
+
+            // Left-Right
+            if (Input.GetKey(KeyCode.Q))
+                rotation -= 1;
+            if (Input.GetKey(KeyCode.E))
+                rotation += 1;
+
+            return rotation;
+        }
 
         private Vector3 GetInputTranslation()
         {
@@ -51,17 +70,5 @@ namespace EscapeTheRoom
             return direction;
         }
 
-        private float GetInputRotation()
-        {
-            float rotation = 0;
-
-            // Left-Right
-            if (Input.GetKey(KeyCode.Q))
-                rotation -= 1;
-            if (Input.GetKey(KeyCode.E))
-                rotation += 1;
-
-            return rotation;
-        }
     }
 }
