@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1760890519636002586}
   - component: {fileID: 8500330147291850101}
   - component: {fileID: 6476503227504129918}
+  - component: {fileID: 7936044242234215461}
   m_Layer: 6
   m_Name: Chest
   m_TagString: Untagged
@@ -103,10 +104,50 @@ MonoBehaviour:
     Variable: {fileID: 0}
   _onSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7936044242234215461}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Items.ItemSelectionController, Assembly-CSharp
+        m_MethodName: OnSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   _onDeSelect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7936044242234215461}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Items.ItemSelectionController, Assembly-CSharp
+        m_MethodName: OnDeselect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7936044242234215461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8099686712389123295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24c09031075c46f4ab1a663c2b94cac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _colorScale: 0.75
+  _views:
+  - {fileID: 2460828298843149373}
+  - {fileID: 2461008686844548029}
 --- !u!1001 &2459806964837988475
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,9 +155,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8109962926596822311}
     m_Modifications:
+    - target: {fileID: 1206575941205852, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1234933539761222, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
       propertyPath: m_Name
       value: PiratesChest_A1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1446596243667872, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4092796980743556, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -182,6 +231,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 33111254453276856, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8251622807040867175, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
     - {fileID: 65590042247723914, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
@@ -198,6 +251,11 @@ GameObject:
 --- !u!4 &2462754664267509397 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4375194192500462, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
+  m_PrefabInstance: {fileID: 2459806964837988475}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2461008686844548029 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1617632788097990, guid: 3af97be74ea27f748a033204951d97c7, type: 3}
   m_PrefabInstance: {fileID: 2459806964837988475}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4172187767427082736
