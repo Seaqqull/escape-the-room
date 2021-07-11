@@ -7,6 +7,7 @@ namespace EscapeTheRoom.UI.Menus
     public class EndGameMenu : Menu
     {
         [SerializeField] private TextMeshProUGUI _bestTime;
+        [SerializeField] private TextMeshProUGUI _currentTime;
 
 
         public override void Show()
@@ -22,6 +23,7 @@ namespace EscapeTheRoom.UI.Menus
                 bestTime = roundTime;
             }
 
+            _currentTime.text = Utilities.Methods.UI.GetFormattedTime(roundTime);
             _bestTime.text = Utilities.Methods.UI.GetFormattedTime(bestTime);
         }
     }
