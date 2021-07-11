@@ -71,8 +71,12 @@ namespace EscapeTheRoom.Managers
                 Player.Instance.ClearInventory();
                 UIManager.Instance.HideEndMenu();
             }
-            _room.Assemble();
 
+            // Reset room parameters
+            _room.Assemble();
+            _camera.transform.position = _room.Center;
+
+            // Reset round parameters
             InputAllowed = true;
 
             _firstLaunch = false;
