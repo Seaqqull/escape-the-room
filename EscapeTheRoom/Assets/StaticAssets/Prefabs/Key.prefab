@@ -269,7 +269,7 @@ MonoBehaviour:
   _singlePick: 1
   _singleUse: 0
   _pickable: 1
-  _pickupDelay: 0.3
+  _pickupDelay: 1
   _successDialog:
     UseConstant: 0
     ConstantValue: 0
@@ -283,6 +283,12 @@ MonoBehaviour:
     UseConstant: 1
     ConstantValue: 0
     Variable: {fileID: 0}
+  _onSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  _onDeSelect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &3336154926320277640
 BoxCollider:
   m_ObjectHideFlags: 0
