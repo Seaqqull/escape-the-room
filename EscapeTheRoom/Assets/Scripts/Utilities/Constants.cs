@@ -18,4 +18,10 @@ namespace EscapeTheRoom.Utilities.Constant
     {
         public static readonly string TIME = "BestTime";
     }
+
+    public static class Shaders
+    {
+        public static readonly int SELECTED = Shader.PropertyToID("Selected");
+        public static readonly int COLOR = Shader.PropertyToID("_Color");
+    }
 }
