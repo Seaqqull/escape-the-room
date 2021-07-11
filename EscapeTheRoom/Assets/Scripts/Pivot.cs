@@ -17,6 +17,7 @@ namespace EscapeTheRoom
         [Space]
         [Header("Pivoting")]
         [SerializeField] private Axis _rotation;
+        [SerializeField] private Axis _position;
 
         private Transform _pivotTransform;
 
@@ -31,6 +32,17 @@ namespace EscapeTheRoom
 
         private void Update()
         {
+            AllignRotation();
+            AllignPosition();
+        }
+
+
+        private void AllignRotation()
+        {
+            if(!(_rotation.X || _rotation.Y || _rotation.Z))
+                return;
+
+
             var pivotRotation = _pivotTransform.rotation;
             var originRotation = Transform.rotation;
 
@@ -39,6 +51,20 @@ namespace EscapeTheRoom
                 _rotation.Y? pivotRotation.y : originRotation.y,
                 _rotation.Z? pivotRotation.z : originRotation.z,
                 pivotRotation.w);
+        }
+
+        private void AllignPosition()
+        {
+            if(!(_position.X || _position.Y || _position.Z))
+                return;
+
+            var pivotPosition = _pivotTransform.transform.position;
+            var originPosition = Transform.position;
+
+            Transform.position = new Vector3(
+                _position.X? pivotPosition.x : originPosition.x,
+                _position.Y? pivotPosition.y : originPosition.y,
+                _position.Z? pivotPosition.z : originPosition.z);
         }
     }
 }

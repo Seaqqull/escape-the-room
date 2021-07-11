@@ -52,6 +52,8 @@ namespace EscapeTheRoom.Managers
             _started = false;
 
             UIManager.Instance.ShowEndMenu();
+            AudioManager.Instance.StopBackground();
+            AudioManager.Instance.PlanWin();
         }
 
         public void Clear()
@@ -75,6 +77,8 @@ namespace EscapeTheRoom.Managers
             // Reset room parameters
             _room.Assemble();
             _camera.transform.position = _room.Center;
+
+            AudioManager.Instance.PlayBackground();
 
             // Reset round parameters
             InputAllowed = true;
