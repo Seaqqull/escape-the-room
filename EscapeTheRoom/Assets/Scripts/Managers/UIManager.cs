@@ -42,14 +42,14 @@ namespace EscapeTheRoom.Managers
             ShowStartMenu();
         }
 
-        
+
         public void ShowStartMenu()
         {
             if(_starMenu.Active)
                 return;
 
             _starMenu.Show();
-            
+
             // Update text
             var bestTime = Managers.RecordsManager.Instance.GetBestTime();
             if(bestTime != float.MaxValue)
@@ -70,7 +70,7 @@ namespace EscapeTheRoom.Managers
                 return;
 
             _endMenu.Show();
-            
+
             // Update text
             var bestTime = Managers.RecordsManager.Instance.GetBestTime();
             var roundTime = Managers.RoundManager.Instance.RoundTime;

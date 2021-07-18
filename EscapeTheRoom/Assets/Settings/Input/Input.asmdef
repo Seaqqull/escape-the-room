@@ -1,13 +1,7 @@
 {
-    "name": "Managers",
+    "name": "CustomInput",
     "rootNamespace": "",
     "references": [
-        "GUID:6055be8ebefd69e48b49212b09b47b2f",
-        "GUID:d19d2dbbc9bdb034494bafa138382d93",
-        "GUID:d5c5d3d6b1457f44887579af523ce7fe",
-        "GUID:1b28d7b7d1fef1444bdc585b53543395",
-        "GUID:485313f7840840a458d61dffb6382cfa",
-        "GUID:e254b308f3af1f24c8fb84a02ffe9c2b",
         "GUID:75469ad4d38634e559750d17036d5f7c"
     ],
     "includePlatforms": [],

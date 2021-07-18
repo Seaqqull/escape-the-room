@@ -73,7 +73,7 @@ namespace EscapeTheRoom.Managers
 
             // Reset room parameters
             _camera.transform.position = _center.position;
-            
+
             // Events
             AudioManager.Instance.PlayBackground();
             _onBegin.Invoke();

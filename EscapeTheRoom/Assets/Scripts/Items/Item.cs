@@ -28,7 +28,7 @@ namespace EscapeTheRoom.Items
 
         protected Animator _animator;
         protected Collider _collider;
-        
+
         public bool Picked {get; protected set;}
         public bool Used {get; private set;}
 
@@ -86,7 +86,7 @@ namespace EscapeTheRoom.Items
 
             if(!_pickable)
                 return;
-            
+
             Hide();
         }
 

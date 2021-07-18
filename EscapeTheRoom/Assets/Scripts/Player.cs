@@ -15,7 +15,6 @@ namespace EscapeTheRoom
 
         private List<Items.Item> _items;
         private Items.Item _selectedItem;
-        private Vector3 _mousePosition;
 
 
         protected override void Awake()
@@ -23,61 +22,6 @@ namespace EscapeTheRoom
             base.Awake();
 
             _items = new List<Items.Item>();
-        }
-
-        private void Update()
-        {
-            if(!Managers.RoundManager.Instance.InputAllowed)
-                return;
-
-            CheckItemSelection();
-            CheckItemInteraction();
-        }
-
-
-        private void CheckItemSelection()
-        {
-            var ray = Managers.UIManager.Instance.Camera.ScreenPointToRay(_mousePosition);
-
-            if(!Physics.Raycast(ray, out var hit, _distance, _interactableLayer))
-            {
-                SelectObject(null);
-                return;
-            }
-
-            // New item selected
-            var selectedObject = hit.transform.gameObject.GetComponent<Items.Item>();
-            if(selectedObject == null)
-            {
-                SelectObject(null);
-                return;
-            }
-            if(_selectedItem != null && selectedObject.GetInstanceID() == _selectedItem.GetInstanceID())
-            {
-                return;
-            }
-
-            // Deselect old & select new
-            SelectObject(selectedObject);
-            Debug.Log($"Selected object{selectedObject.name}");
-        }
-
-        private void CheckItemInteraction()
-        {
-            if(_selectedItem == null || !Input.GetMouseButtonDown(0))
-                return;
-
-            // Item clicked
-            var selectedItem = _selectedItem;
-            _onInteraction.Invoke();
-            
-            if(_selectedItem.ItemRequired && !HasItem(_selectedItem.RequiredItemId))
-            {
-                Managers.UIManager.Instance.ShowDialog(_selectedItem.FailureDialogId, null, null);
-                return;
-            }
-            
-            Managers.UIManager.Instance.ShowDialog(_selectedItem.SuccessDialogId, ()=> PickupItem(selectedItem), null);
         }
 
 
@@ -135,15 +79,61 @@ namespace EscapeTheRoom
         {
             if(item.ItemRequired)
                 UseItem(item.RequiredItemId);
-            
+
             item.Interact();
             _items.Add(item);
         }
-        
-        public void UpdateMousePosition(Vector3 position)
+
+
+        public void OnMouseClick()
         {
-            _mousePosition = position;
+            if((!Managers.RoundManager.Instance.InputAllowed) ||
+               (_selectedItem == null ))
+                return;
+
+
+            // Item clicked
+            var selectedItem = _selectedItem;
+            _onInteraction.Invoke();
+
+            if(_selectedItem.ItemRequired && !HasItem(_selectedItem.RequiredItemId))
+            {
+                Managers.UIManager.Instance.ShowDialog(_selectedItem.FailureDialogId, null, null);
+                return;
+            }
+
+            Managers.UIManager.Instance.ShowDialog(_selectedItem.SuccessDialogId, ()=> PickupItem(selectedItem), null);
         }
 
+        public void OnMouseMove(Vector2 mousePosition)
+        {
+            if(!Managers.RoundManager.Instance.InputAllowed)
+                return;
+
+
+            var ray = Managers.UIManager.Instance.Camera.ScreenPointToRay(mousePosition);
+            // Whether ray didn't hit anything
+            if(!Physics.Raycast(ray, out var hit, _distance, _interactableLayer))
+            {
+                SelectObject(null);
+                return;
+            }
+
+            // New item selected
+            var selectedObject = hit.transform.gameObject.GetComponent<Items.Item>();
+            if(selectedObject == null)
+            {
+                SelectObject(null);
+                return;
+            }
+            if(_selectedItem != null && selectedObject.GetInstanceID() == _selectedItem.GetInstanceID())
+            {
+                return;
+            }
+
+            // Deselect old & select new
+            SelectObject(selectedObject);
+            Debug.Log($"Selected object{selectedObject.name}");
+        }
     }
 }

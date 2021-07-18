@@ -14,7 +14,7 @@ namespace EscapeTheRoom.General
             public bool Z;
         }
 
-        
+
         [SerializeField] private GameObject _pivot;
         [Space]
         [Header("Pivoting")]
@@ -27,12 +27,12 @@ namespace EscapeTheRoom.General
         protected override void Awake()
         {
             base.Awake();
-            
+
             if (_pivot == null)
                 throw new Exception("There is no pivot attached to entity");
             _pivotTransform = _pivot.GetComponent<Transform>();
         }
-        
+
         private void Update()
         {
             if(_rotation.X || _rotation.Y || _rotation.Z)

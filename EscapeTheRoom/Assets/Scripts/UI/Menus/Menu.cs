@@ -23,7 +23,7 @@ namespace EscapeTheRoom.UI.Menus
         {
             _animator.SetTrigger(Utilities.Constant.Animation.SHOW);
             Active = true;
-            
+
             _onShow.Invoke();
         }
 
@@ -31,7 +31,7 @@ namespace EscapeTheRoom.UI.Menus
         {
             _animator.SetTrigger(Utilities.Constant.Animation.HIDE);
             Active = false;
-            
+
             _onHide.Invoke();
         }
     }
