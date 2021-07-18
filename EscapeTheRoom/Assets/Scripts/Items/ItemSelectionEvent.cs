@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EscapeTheRoom.Items
 {
-    public class ItemSelectionController : MonoBehaviour
+    public class ItemSelectionEvent : MonoBehaviour
     {
         [SerializeField][Range(0, 1)] private float _colorScale;
         [SerializeField] private List<GameObject> _views;

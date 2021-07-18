@@ -21,16 +21,38 @@ namespace EscapeTheRoom.Items
         [SerializeField] protected Utilities.Variables.IntegerReference _failureDialog;
         [Header("Requirements")]
         [SerializeField] protected bool _itemRequired;
-        [SerializeField] protected Utilities.Variables.IntegerReference _itemId;
+        [SerializeField] protected Utilities.Variables.IntegerReference _requiredItemId;
         [Header("Events")]
         [SerializeField] protected UnityEvent _onSelect;
         [SerializeField] protected UnityEvent _onDeSelect;
 
         protected Animator _animator;
         protected Collider _collider;
-        protected bool _picked;
-
+        
+        public bool Picked {get; protected set;}
         public bool Used {get; private set;}
+
+        public int FailureDialogId
+        {
+            get { return _failureDialog; }
+        }
+
+        public int SuccessDialogId
+        {
+            get { return _successDialog; }
+        }
+        public int RequiredItemId
+        {
+            get { return _requiredItemId; }
+        }
+        public bool ItemRequired
+        {
+            get { return _itemRequired; }
+        }
+        public bool SinglePick
+        {
+            get {return _singlePick;}
+        }
         public bool SingleUse
         {
             get {return _singleUse;}
@@ -48,9 +70,9 @@ namespace EscapeTheRoom.Items
         }
 
 
-        protected void OnInteract()
+        public void Interact()
         {
-            _picked = true;
+            Picked = true;
             if(_singlePick)
                 _collider.enabled = false;
 
@@ -62,14 +84,10 @@ namespace EscapeTheRoom.Items
         {
             Deselect();
 
-            if(_itemRequired)
-                Player.Instance.UseItem(_itemId);
             if(!_pickable)
                 return;
-
-
-            _renderer.SetActive(false);
-            Player.Instance.PickupItem(this);
+            
+            Hide();
         }
 
 
@@ -83,19 +101,14 @@ namespace EscapeTheRoom.Items
             _onSelect.Invoke();
         }
 
-
-        public void Interact()
+        public void Show()
         {
-            if(_picked && _singlePick)
-                return;
-            if(_itemRequired && !Player.Instance.HasItem(_itemId))
-            {
-                Managers.UIManager.Instance.ShowDialog(_failureDialog, null, null);
-                return;
-            }
+            _renderer.SetActive(true);
+        }
 
-
-            Managers.UIManager.Instance.ShowDialog(_successDialog, OnInteract, null);
+        public void Hide()
+        {
+            _renderer.SetActive(false);
         }
 
         public void Deselect()

@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
+using System;
+using TMPro;
 
 
 namespace EscapeTheRoom.Managers
@@ -17,8 +17,14 @@ namespace EscapeTheRoom.Managers
         }
 
         [SerializeField] private TextMeshProUGUI _countdown;
+        [Header("Start-menu")]
         [SerializeField] private UI.Menus.Menu _starMenu;
+        [SerializeField] private TextMeshProUGUI _bestStartTime;
+        [Header("End-menu")]
         [SerializeField] private UI.Menus.Menu _endMenu;
+        [SerializeField] private TextMeshProUGUI _bestEndTime;
+        [SerializeField] private TextMeshProUGUI _currentEndTime;
+        [Header("Dialogs")]
         [SerializeField] private List<DialogData> _dialogs;
 
         public Camera Camera {get; private set;}
@@ -33,9 +39,22 @@ namespace EscapeTheRoom.Managers
 
         private void Start()
         {
-            _starMenu.Show();
+            ShowStartMenu();
         }
 
+        
+        public void ShowStartMenu()
+        {
+            if(_starMenu.Active)
+                return;
+
+            _starMenu.Show();
+            
+            // Update text
+            var bestTime = Managers.RecordsManager.Instance.GetBestTime();
+            if(bestTime != float.MaxValue)
+                _bestStartTime.text = Utilities.Methods.UI.GetFormattedTime(bestTime);
+        }
 
         public void HideStartMenu()
         {
@@ -51,6 +70,18 @@ namespace EscapeTheRoom.Managers
                 return;
 
             _endMenu.Show();
+            
+            // Update text
+            var bestTime = Managers.RecordsManager.Instance.GetBestTime();
+            var roundTime = Managers.RoundManager.Instance.RoundTime;
+            if(roundTime < bestTime)
+            {
+                Managers.RecordsManager.Instance.SaveBestTime(roundTime);
+                bestTime = roundTime;
+            }
+
+            _currentEndTime.text = Utilities.Methods.UI.GetFormattedTime(roundTime);
+            _bestEndTime.text = Utilities.Methods.UI.GetFormattedTime(bestTime);
         }
 
         public void HideEndMenu()
@@ -70,7 +101,7 @@ namespace EscapeTheRoom.Managers
         {
             var dialogData = _dialogs.SingleOrDefault(dialog => dialog.Id == dialogId);
 
-            if(dialogData.Dialog == null)
+            if (dialogData.Dialog == null)
                 return;
 
 

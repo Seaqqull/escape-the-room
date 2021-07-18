@@ -1,4 +1,5 @@
-using EscapeTheRoom.Rooms;
+using EscapeTheRoom.General;
+using UnityEngine.Events;
 using UnityEngine;
 
 
@@ -9,7 +10,9 @@ namespace EscapeTheRoom.Managers
 
         [SerializeField] private float _roundTime;
         [SerializeField] private RTSCamera _camera;
-        [SerializeField] private RoomController _room;
+        [SerializeField] private Transform _center;
+        [SerializeField] private UnityEvent _onBegin;
+        [SerializeField] private UnityEvent _onClear;
 
         private bool _inputAllowed;
         private bool _firstLaunch = true;
@@ -20,9 +23,9 @@ namespace EscapeTheRoom.Managers
             get {return _inputAllowed;}
             set
             {
-                if(_camera != null)
-                    _camera.Active = value;
-                _inputAllowed = true;
+                 if(_camera != null)
+                     _camera.Active = value;
+                _inputAllowed = value;
             }
         }
         public float RoundTime
@@ -56,11 +59,6 @@ namespace EscapeTheRoom.Managers
             AudioManager.Instance.PlanWin();
         }
 
-        public void Clear()
-        {
-            _room.Disassemble();
-        }
-
         public void Begin()
         {
             if(_firstLaunch)
@@ -69,16 +67,16 @@ namespace EscapeTheRoom.Managers
             }
             else
             {
-                Clear();
-                Player.Instance.ClearInventory();
+                _onClear.Invoke();
                 UIManager.Instance.HideEndMenu();
             }
 
             // Reset room parameters
-            _room.Assemble();
-            _camera.transform.position = _room.Center;
-
+            _camera.transform.position = _center.position;
+            
+            // Events
             AudioManager.Instance.PlayBackground();
+            _onBegin.Invoke();
 
             // Reset round parameters
             InputAllowed = true;

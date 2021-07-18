@@ -327,7 +327,7 @@ MonoBehaviour:
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: fa3bb4d45266e624c9d450e4ec11416c, type: 2}
   _itemRequired: 1
-  _itemId:
+  _requiredItemId:
     UseConstant: 0
     ConstantValue: 0
     Variable: {fileID: 11400000, guid: 2b74f0e6dfd53f6439463298c7218246, type: 2}

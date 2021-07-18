@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 119582631}
   - component: {fileID: 119582632}
-  - component: {fileID: 119582633}
+  - component: {fileID: 119582634}
   m_Layer: 5
   m_Name: EndMenu
   m_TagString: Untagged
@@ -180,7 +180,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &119582633
+--- !u!114 &119582634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,11 +189,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 119582630}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9396fa68efa7f5a4cadff55963d828bb, type: 3}
+  m_Script: {fileID: 11500000, guid: f25a2b0ae013f5041990c1efe13f7d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bestTime: {fileID: 536388402}
-  _currentTime: {fileID: 733276586}
+  _onShow:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHide:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &126882843
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 436772353}
   - component: {fileID: 436772354}
-  - component: {fileID: 436772355}
+  - component: {fileID: 436772356}
   m_Layer: 5
   m_Name: BeginMenu
   m_TagString: Untagged
@@ -1081,7 +1085,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &436772355
+--- !u!114 &436772356
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1090,10 +1094,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 436772352}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9f603a4b2643d24bb69adcb7692f144, type: 3}
+  m_Script: {fileID: 11500000, guid: f25a2b0ae013f5041990c1efe13f7d22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bestTime: {fileID: 920605017}
+  _onShow:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHide:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &447046146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,19 +1918,7 @@ MonoBehaviour:
   _distance: 100
   _onInteraction:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1007787439}
-        m_TargetAssemblyTypeName: EscapeTheRoom.Managers.RoundManager, Assembly-CSharp
-        m_MethodName: set_InputAllowed
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!4 &703915816
 Transform:
   m_ObjectHideFlags: 0
@@ -2737,6 +2734,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1007787438}
   - component: {fileID: 1007787440}
+  - component: {fileID: 1007787442}
   - component: {fileID: 1007787439}
   - component: {fileID: 1007787441}
   m_Layer: 0
@@ -2776,7 +2774,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _roundTime: 0
   _camera: {fileID: 1687258583}
-  _room: {fileID: 1452798384}
+  _center: {fileID: 1910641093}
+  _onBegin:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 703915815}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Player, Assembly-CSharp
+        m_MethodName: ClearInventory
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1452798384}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Rooms.RoomController, Room
+        m_MethodName: Assemble
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onClear:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1452798384}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Rooms.RoomController, Room
+        m_MethodName: Disassemble
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1007787440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2790,8 +2830,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _countdown: {fileID: 126882845}
-  _starMenu: {fileID: 436772355}
-  _endMenu: {fileID: 119582633}
+  _starMenu: {fileID: 436772356}
+  _bestStartTime: {fileID: 920605017}
+  _endMenu: {fileID: 119582634}
+  _bestEndTime: {fileID: 536388402}
+  _currentEndTime: {fileID: 733276586}
   _dialogs:
   - Id:
       UseConstant: 0
@@ -2820,6 +2863,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27718108e311e74895978c793a069d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1007787442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007787437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9fc8e27346e4010ac731c8461a35455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onMovement:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1687258583}
+        m_TargetAssemblyTypeName: EscapeTheRoom.General.RTSCamera, General
+        m_MethodName: UpdateTranslation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onRotation:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1687258583}
+        m_TargetAssemblyTypeName: EscapeTheRoom.General.RTSCamera, General
+        m_MethodName: UpdateDirection
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onMouseMoove:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 703915815}
+        m_TargetAssemblyTypeName: EscapeTheRoom.Player, Assembly-CSharp
+        m_MethodName: UpdateMousePosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1057049117
 GameObject:
   m_ObjectHideFlags: 0
@@ -3266,6 +3366,7 @@ GameObject:
   - component: {fileID: 1418889752}
   - component: {fileID: 1418889753}
   - component: {fileID: 1418889754}
+  - component: {fileID: 1418889755}
   m_Layer: 5
   m_Name: InGame
   m_TagString: Untagged
@@ -3335,6 +3436,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1418889755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418889751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f25a2b0ae013f5041990c1efe13f7d22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onShow:
+    m_PersistentCalls:
+      m_Calls: []
+  _onHide:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1429899223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3629,7 +3748,7 @@ AudioSource:
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0

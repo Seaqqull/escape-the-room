@@ -1,11 +1,12 @@
 using UnityEngine;
+using System;
 
 
-namespace EscapeTheRoom
+namespace EscapeTheRoom.General
 {
     public class Pivot : Base.BaseMono
     {
-        [System.Serializable]
+        [Serializable]
         private struct Axis
         {
             public bool X;
@@ -13,6 +14,7 @@ namespace EscapeTheRoom
             public bool Z;
         }
 
+        
         [SerializeField] private GameObject _pivot;
         [Space]
         [Header("Pivoting")]
@@ -25,24 +27,23 @@ namespace EscapeTheRoom
         protected override void Awake()
         {
             base.Awake();
-
-            _pivotTransform = _pivot?.GetComponent<Transform>();
+            
+            if (_pivot == null)
+                throw new Exception("There is no pivot attached to entity");
+            _pivotTransform = _pivot.GetComponent<Transform>();
         }
-
-
+        
         private void Update()
         {
-            AllignRotation();
-            AllignPosition();
+            if(_rotation.X || _rotation.Y || _rotation.Z)
+                AlignRotation();
+            if(_position.X || _position.Y || _position.Z)
+                AlignPosition();
         }
 
 
-        private void AllignRotation()
+        private void AlignRotation()
         {
-            if(!(_rotation.X || _rotation.Y || _rotation.Z))
-                return;
-
-
             var pivotRotation = _pivotTransform.rotation;
             var originRotation = Transform.rotation;
 
@@ -53,11 +54,8 @@ namespace EscapeTheRoom
                 pivotRotation.w);
         }
 
-        private void AllignPosition()
+        private void AlignPosition()
         {
-            if(!(_position.X || _position.Y || _position.Z))
-                return;
-
             var pivotPosition = _pivotTransform.transform.position;
             var originPosition = Transform.position;
 

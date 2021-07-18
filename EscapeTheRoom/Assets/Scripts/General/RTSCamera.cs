@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-namespace EscapeTheRoom
+namespace EscapeTheRoom.General
 {
     public class RTSCamera : MonoBehaviour
     {
@@ -11,64 +11,48 @@ namespace EscapeTheRoom
         [Header("Rotation")]
         [SerializeField] private float _rotationSpeed;
 
+        private Vector3 _translation;
+        private float _rotation;
+        
         public bool Active {get; set;}
-
+        
 
         private void LateUpdate()
         {
             if(!Active)
                 return;
-
-
-            var translation = GetInputTranslation();
-            var rotation = GetInputRotation();
-
-
-            translation = _pivot.transform.TransformDirection(translation);
-            if (translation.magnitude > 1.0f)
-                translation.Normalize();
-
-
-            transform.Rotate(
-                Vector3.up * (rotation * _rotationSpeed * Time.deltaTime),
-                Space.World
-            );
-            transform.position +=
-                (translation * _movementSpeed * Time.deltaTime);
+            
+            
+            // Rotation
+            if (_rotation != 0.0f)
+            {
+                transform.Rotate(
+                    Vector3.up * (_rotation * _rotationSpeed * Time.deltaTime),
+                    Space.World
+                );    
+            }
+            
+            // Translation
+            if (_translation != Vector3.zero)
+            {
+                transform.position +=
+                    (_translation * (_movementSpeed * Time.deltaTime));   
+            }
         }
-
-
-        private float GetInputRotation()
+        
+        
+        public void UpdateDirection(float direction)
         {
-            float rotation = 0;
-
-            // Left-Right
-            if (Input.GetKey(KeyCode.Q))
-                rotation -= 1;
-            if (Input.GetKey(KeyCode.E))
-                rotation += 1;
-
-            return rotation;
+            _rotation = direction;
         }
 
-        private Vector3 GetInputTranslation()
+        public void UpdateTranslation(Vector3 direction)
         {
-            Vector3 direction = Vector3.zero;
-
-            // Forward-Back
-            if (Input.GetKey(KeyCode.W))
-                direction += Vector3.forward;
-            if (Input.GetKey(KeyCode.S))
-                direction += Vector3.back;
-
-            // Left-Right
-            if (Input.GetKey(KeyCode.A))
-                direction += Vector3.left;
-            if (Input.GetKey(KeyCode.D))
-                direction += Vector3.right;
-
-            return direction;
+            _translation = direction;
+            
+            _translation = _pivot.transform.TransformDirection(_translation);
+            if (_translation.magnitude > 1.0f)
+                _translation.Normalize();
         }
-
     }
 }

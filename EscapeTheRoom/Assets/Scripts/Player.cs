@@ -15,6 +15,7 @@ namespace EscapeTheRoom
 
         private List<Items.Item> _items;
         private Items.Item _selectedItem;
+        private Vector3 _mousePosition;
 
 
         protected override void Awake()
@@ -36,7 +37,7 @@ namespace EscapeTheRoom
 
         private void CheckItemSelection()
         {
-            var ray = Managers.UIManager.Instance.Camera.ScreenPointToRay(Input.mousePosition);
+            var ray = Managers.UIManager.Instance.Camera.ScreenPointToRay(_mousePosition);
 
             if(!Physics.Raycast(ray, out var hit, _distance, _interactableLayer))
             {
@@ -56,21 +57,27 @@ namespace EscapeTheRoom
                 return;
             }
 
-            // Deselect old
+            // Deselect old & select new
             SelectObject(selectedObject);
-            // Select new
             Debug.Log($"Selected object{selectedObject.name}");
         }
 
         private void CheckItemInteraction()
         {
-            if(!Input.GetMouseButtonDown(0) || _selectedItem == null)
+            if(_selectedItem == null || !Input.GetMouseButtonDown(0))
                 return;
 
-
             // Item clicked
+            var selectedItem = _selectedItem;
             _onInteraction.Invoke();
-            _selectedItem.Interact();
+            
+            if(_selectedItem.ItemRequired && !HasItem(_selectedItem.RequiredItemId))
+            {
+                Managers.UIManager.Instance.ShowDialog(_selectedItem.FailureDialogId, null, null);
+                return;
+            }
+            
+            Managers.UIManager.Instance.ShowDialog(_selectedItem.SuccessDialogId, ()=> PickupItem(selectedItem), null);
         }
 
 
@@ -126,8 +133,17 @@ namespace EscapeTheRoom
 
         public void PickupItem(Items.Item item)
         {
-            // Update UI
+            if(item.ItemRequired)
+                UseItem(item.RequiredItemId);
+            
+            item.Interact();
             _items.Add(item);
         }
+        
+        public void UpdateMousePosition(Vector3 position)
+        {
+            _mousePosition = position;
+        }
+
     }
 }

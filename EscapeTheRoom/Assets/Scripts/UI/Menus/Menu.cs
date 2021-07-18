@@ -1,3 +1,4 @@
+using UnityEngine.Events;
 using UnityEngine;
 
 
@@ -6,7 +7,9 @@ namespace EscapeTheRoom.UI.Menus
     [RequireComponent(typeof(Animator))]
     public class Menu : MonoBehaviour
     {
-        private Animator _animator;
+        [SerializeField] protected UnityEvent _onShow;
+        [SerializeField] protected UnityEvent _onHide;
+        protected Animator _animator;
 
         public bool Active {get; protected set;}
 
@@ -20,12 +23,16 @@ namespace EscapeTheRoom.UI.Menus
         {
             _animator.SetTrigger(Utilities.Constant.Animation.SHOW);
             Active = true;
+            
+            _onShow.Invoke();
         }
 
         public virtual void Hide()
         {
             _animator.SetTrigger(Utilities.Constant.Animation.HIDE);
             Active = false;
+            
+            _onHide.Invoke();
         }
     }
 }
